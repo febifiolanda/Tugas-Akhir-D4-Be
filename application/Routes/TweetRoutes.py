@@ -20,7 +20,7 @@ load_dotenv(path.join(basedir, '.env'))
 def selectAllTweet():
     hashtag = request.args.get("hashtag")
     page = request.args.get("page")
-    result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),20,False).items
+    result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),5,False).items
     return json.dumps(result, cls=AlchemyEncoder)
 
 @cross_origin()
