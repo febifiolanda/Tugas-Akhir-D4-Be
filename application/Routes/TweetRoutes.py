@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 import datetime
 from datetime import timezone
 from flask_cors import cross_origin
-from ..Models.tweet_short_response import tweet_short_response
 
 basedir = path.abspath(path.dirname(path.dirname(path.dirname(__file__))))
 load_dotenv(path.join(basedir, '.env'))
