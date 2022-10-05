@@ -28,8 +28,7 @@ def selectAllTweet():
     # sql = db.text('SELECT classification_result AS label, COUNT(`classification_result`) AS result FROM tweet WHERE search_val="'+hashtag+'" GROUP BY(classification_result)')
     sql = db.text('SELECT classification_result, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" limit '+str(offset)+', '+str(limit)+'')
     result = db.engine.execute(sql)
-    # result_json = jsonify({'result': [dict(row) for row in result]})
-    result_arr = [dict(row) for row in result]
+    result_json = jsonify([dict(row) for row in result])
     return result_arr
 
 @cross_origin()
