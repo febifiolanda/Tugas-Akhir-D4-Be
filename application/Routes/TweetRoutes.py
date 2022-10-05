@@ -26,7 +26,7 @@ def selectAllTweet():
     offset = int(limit)*(page-1)
     # result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),int(limit),False).items
     # sql = db.text('SELECT classification_result AS label, COUNT(`classification_result`) AS result FROM tweet WHERE search_val="'+hashtag+'" GROUP BY(classification_result)')
-    sql = db.text('SELECT classification_result AS sentiment, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" limit '+str(offset)+', '+str(limit)+'')
+    sql = db.text('SELECT classification_result, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" limit '+str(offset)+', '+str(limit)+'')
     result = db.engine.execute(sql)
     result_json = jsonify({'result': [dict(row) for row in result]})
     return result_json
