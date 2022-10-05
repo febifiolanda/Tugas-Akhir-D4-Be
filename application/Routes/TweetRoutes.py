@@ -22,30 +22,40 @@ def selectAllTweet():
     page = int(request.args.get("page"))
     limit = request.args.get("limit")
     if limit is None:
-        limit = 1   
+        limit = 10   
     offset = int(limit)*(page-1)
-    # result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),int(limit),False).items
-    # sql = db.text('SELECT classification_result AS label, COUNT(`classification_result`) AS result FROM tweet WHERE search_val="'+hashtag+'" GROUP BY(classification_result)')
     sql = db.text('SELECT classification_result, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" limit '+str(offset)+', '+str(limit)+'')
     result = db.engine.execute(sql)
     result_json = jsonify([dict(row) for row in result])
-    return result_arr
+    return result_json
 
 @cross_origin()
 @app.route('/negative-tweet/all', methods=['GET'])
 def selectAllNegativeTweet():
     hashtag = request.args.get("hashtag")
     page = request.args.get("page")
-    result = Tweet.query.filter_by(search_val=hashtag, classification_result="0").paginate(int(page),20,False).items
-    return json.dumps(result, cls=AlchemyEncoder)
+    limit = request.args.get("limit")
+    if limit is None:
+        limit = 10   
+    offset = int(limit)*(page-1)
+    sql = db.text('SELECT classification_result, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" AND classification_result="0" limit '+str(offset)+', '+str(limit)+'')
+    result = db.engine.execute(sql)
+    result_json = jsonify([dict(row) for row in result])
+    return result_json
 
 @cross_origin()
 @app.route('/positive-tweet/all', methods=['GET'])
 def selectAllPositiveTweet():
     hashtag = request.args.get("hashtag")
     page = request.args.get("page")
-    result = Tweet.query.filter_by(search_val=hashtag, classification_result="1").paginate(int(page),20,False).items
-    return json.dumps(result, cls=AlchemyEncoder)
+    limit = request.args.get("limit")
+    if limit is None:
+        limit = 10   
+    offset = int(limit)*(page-1)
+    sql = db.text('SELECT classification_result, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" AND classification_result="1" limit '+str(offset)+', '+str(limit)+'')
+    result = db.engine.execute(sql)
+    result_json = jsonify([dict(row) for row in result])
+    return result_json
 
 @cross_origin()
 @app.route('/tweet/count', methods=['GET'])
