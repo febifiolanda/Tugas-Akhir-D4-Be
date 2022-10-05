@@ -25,10 +25,8 @@ def selectAllTweet():
     if limit is None:
         limit = 1   
     result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),int(limit),False).items
-    newResults=[]
-    for row in result:
-        new_obj=tweet_short_response(result.id, result.user_name, result.tweet,result.classification_result)
-    return json.dumps(result, cls=AlchemyEncoder)
+    result_json = jsonify({'result': [dict(new_obj=tweet_short_response(row.id, row.user_name, row.tweet,row.classification_result)) for row in result]})
+    return result_json
 
 @cross_origin()
 @app.route('/negative-tweet/all', methods=['GET'])
