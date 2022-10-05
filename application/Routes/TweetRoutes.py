@@ -20,11 +20,11 @@ load_dotenv(path.join(basedir, '.env'))
 @app.route('/tweet/all', methods=['GET'])
 def selectAllTweet():
     hashtag = request.args.get("hashtag")
-    page = request.args.get("page")
+    page = int(request.args.get("page"))
     limit = request.args.get("limit")
     if limit is None:
         limit = 1   
-    offset = limit*(page-1)
+    offset = int(limit)*(page-1)
     # result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),int(limit),False).items
     # sql = db.text('SELECT classification_result AS label, COUNT(`classification_result`) AS result FROM tweet WHERE search_val="'+hashtag+'" GROUP BY(classification_result)')
     sql = db.text('SELECT classification_result AS sentiment, id, user_screen_name, text FROM tweet WHERE search_val="'+hashtag+'" limit "'+offset+'", "'+limit+'"')
