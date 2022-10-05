@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 import datetime
 from datetime import timezone
 from flask_cors import cross_origin
+from ..Models.tweet_short_response import tweet_short_response
 
 basedir = path.abspath(path.dirname(path.dirname(path.dirname(__file__))))
 load_dotenv(path.join(basedir, '.env'))
@@ -24,6 +25,9 @@ def selectAllTweet():
     if limit is None:
         limit = 1   
     result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),int(limit),False).items
+    newResults=[]
+    for row in result:
+        new_obj=tweet_short_response(result.id, result.user_name, result.tweet,result.classification_result)
     return json.dumps(result, cls=AlchemyEncoder)
 
 @cross_origin()
