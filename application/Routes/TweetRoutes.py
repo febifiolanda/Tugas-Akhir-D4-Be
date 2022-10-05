@@ -25,7 +25,7 @@ def selectAllTweet():
     if limit is None:
         limit = 1   
     result = Tweet.query.filter_by(search_val=hashtag).paginate(int(page),int(limit),False).items
-    result_json = jsonify({'result': [dict(new_obj=tweet_short_response(row.id, row.user_name, row.tweet,row.classification_result)) for row in result]})
+    result_json = jsonify({'result': [dict(new_obj=tweet_short_response(row.id, row.user_screen_name, row.text, row.classification_result)) for row in result]})
     return result_json
 
 @cross_origin()
