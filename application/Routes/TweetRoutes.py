@@ -33,7 +33,7 @@ def selectAllTweet():
 @app.route('/negative-tweet/all', methods=['GET'])
 def selectAllNegativeTweet():
     hashtag = request.args.get("hashtag")
-    page = request.args.get("page")
+    page = int(request.args.get("page"))
     limit = request.args.get("limit")
     if limit is None:
         limit = 10   
@@ -47,7 +47,7 @@ def selectAllNegativeTweet():
 @app.route('/positive-tweet/all', methods=['GET'])
 def selectAllPositiveTweet():
     hashtag = request.args.get("hashtag")
-    page = request.args.get("page")
+    page = int(request.args.get("page"))
     limit = request.args.get("limit")
     if limit is None:
         limit = 10   
